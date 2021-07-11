@@ -1,28 +1,32 @@
 def scrabble() :
 
 
-    import json, requests
+    import urllib
 
-    #A text file containing over 466k English words
-    r = requests.get('https://raw.githubusercontent.com/dwyl/english-words/master/words_dictionary.json')
-
-    rep = r.json()
-
-    all_words = set(rep)
+    #A text file containing French words
+    liste = []
+    url = "http://jph.durand.free.fr/scrabble.txt"
+    file = urllib.request.urlopen(url)
+    for line in file:
+        liste.append(line)
+        
+    mots_francais = set()
+    for elt in liste[1:] :
+        mots_francais.add(elt.decode('utf-8').strip())
 
 
     #Points by letter
-    dico = {1: ['a', 'e', 'i', 'o', 'n', 'r', 't', 'l', 's', 'u'],
-    2: ['d', 'g'],
-    3: ['b', 'c', 'm', 'p'],
-    4: ['f', 'h', 'v', 'w', 'y'],
-    5: ['k'],
-    8: ['j', 'x'],
-    10: ['q', 'z']}
+    dico = {1: ['A', 'E', 'I', 'O', 'N', 'R', 'T', 'L', 'S', 'U'],
+    2: ['D', 'G'],
+    3: ['B', 'C', 'M', 'P'],
+    4: ['F', 'H', 'V', 'W', 'Y'],
+    5: ['K'],
+    8: ['J', 'X'],
+    10: ['Q', 'Z']}
 
     #Initialization of dict of words and input letters
-    mots = all_words
-    letters = ref = input('Please enter your seven letters : \n')
+    mots = mots_francais
+    letters = ref = input('Please enter your seven letters (capitalize) : \n')
 
 
     #Create a list verifying the match between letters and words
@@ -59,10 +63,6 @@ def scrabble() :
 
     #We search the best score
     max_score = max(score, key = score.get)
-
-    dernier_mot = sorted(score)[-1]
-
-    score_of_score = sorted(score.items())[-1][0]
 
 
     #Displaying
